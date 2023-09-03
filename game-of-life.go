@@ -16,7 +16,7 @@ func main() {
 	for {
 		Board.Draw()
 		Board.NextGeneration()
-		time.Sleep(300 * time.Millisecond)
+		time.Sleep(200 * time.Millisecond)
 		fmt.Println(ansiEscapeCode)
 	}
 }
