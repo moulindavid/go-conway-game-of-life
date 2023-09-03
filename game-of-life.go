@@ -3,14 +3,20 @@ package main
 import (
 	"fmt"
 	"moulindavid/game-of-life/cmd/conway"
+	"time"
 )
 
+const ansiEscapeCode = "\033c\x0c"
+
 func main() {
-	Board := conway.NewBoard(5, 5)
+	fmt.Println(ansiEscapeCode)
+	Board := conway.NewBoard(25, 25)
 	Board.GenerateCells()
 	Board.Random()
-	Board.Draw()
-	fmt.Printf("\n")
-	Board.NextGeneration()
-	Board.Draw()
+	for {
+		Board.Draw()
+		Board.NextGeneration()
+		time.Sleep(300 * time.Millisecond)
+		fmt.Println(ansiEscapeCode)
+	}
 }

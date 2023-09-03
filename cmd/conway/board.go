@@ -11,7 +11,7 @@ type CellState int
 const (
 	whiteSquare           = "\xF0\x9F\x9F\xAA"
 	greenSquare           = "\xF0\x9F\x9F\xA9"
-	Dead        CellState = iota
+	Dead        CellState = 0
 	Alive       CellState = 1
 )
 
@@ -58,7 +58,7 @@ func (b *Board) Draw() {
 	for _, row := range b.Cells {
 		for _, cell := range row {
 			switch {
-			case cell == 1:
+			case cell == Alive:
 				fmt.Printf(greenSquare)
 			default:
 				fmt.Printf(whiteSquare)
@@ -72,18 +72,18 @@ func (b *Board) Alive(x, y int) bool {
 	if x < 0 || y < 0 || x >= b.X || y >= b.Y {
 		return false
 	}
-	return b.Cells[x][y] == 1
+	return b.Cells[x][y] == Alive
 }
 
 func (b *Board) CountNeighbours(x, y int) int {
 	var neighbours int
 
-	for i := y - 1; i <= y+1; i++ {
-		for j := x - 1; j <= x+1; j++ {
-			if i == y && j == x {
+	for i := x - 1; i <= x+1; i++ {
+		for j := y - 1; j <= y+1; j++ {
+			if i == x && j == y {
 				continue
 			}
-			if b.Alive(j, i) {
+			if b.Alive(i, j) {
 				neighbours++
 			}
 		}
@@ -105,7 +105,7 @@ func (b *Board) NextGeneration() int {
 			neighbours := b.CountNeighbours(i, j)
 			if value == Dead && containsInt([]int{3}, neighbours) {
 				nextGrid[i][j] = Alive
-			} else if value == 1 && !containsInt([]int{2, 3}, neighbours) {
+			} else if value == Alive && !containsInt([]int{2, 3}, neighbours) {
 				nextGrid[i][j] = Dead
 			} else {
 				nextGrid[i][j] = value
