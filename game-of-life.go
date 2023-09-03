@@ -9,5 +9,8 @@ func main() {
 	Board := conway.NewBoard(5, 5)
 	Board.GenerateCells()
 	Board.Random()
-	fmt.Println(Board.Cells)
+	Board.Draw()
+	fmt.Printf("\n")
+	Board.NextGeneration()
+	Board.Draw()
 }
